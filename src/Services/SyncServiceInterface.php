@@ -1,6 +1,6 @@
 <?php
 
-namespace UUPT\Corp\Services;
+namespace ManoCode\Corp\Services;
 
 interface SyncServiceInterface
 {

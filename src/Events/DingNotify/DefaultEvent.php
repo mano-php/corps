@@ -1,5 +1,5 @@
 <?php
-namespace UUPT\Corp\Events\DingNotify;
+namespace ManoCode\Corp\Events\DingNotify;
 
 
 use Illuminate\Broadcasting\InteractsWithSockets;

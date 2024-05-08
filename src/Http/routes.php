@@ -1,9 +1,9 @@
 <?php
 
-use UUPT\Corp\Http\Controllers;
+use ManoCode\Corp\Http\Controllers;
 use Illuminate\Support\Facades\Route;
-use UUPT\Corp\Http\Controllers\DepartmentController;
-use UUPT\Corp\Http\Controllers\EmployeeController;
+use ManoCode\Corp\Http\Controllers\DepartmentController;
+use ManoCode\Corp\Http\Controllers\EmployeeController;
 
 
 Route::resource('departments', DepartmentController::class);

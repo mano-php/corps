@@ -1,11 +1,11 @@
 <?php
 
-namespace UUPT\Corp\Services;
+namespace ManoCode\Corp\Services;
 
 use Illuminate\Support\Facades\Http;
-use UUPT\Corp\CorpsServiceProvider;
-use UUPT\Corp\Jobs\TaskSyncDepartment;
-use UUPT\Corp\Jobs\TaskSyncUser;
+use ManoCode\Corp\CorpsServiceProvider;
+use ManoCode\Corp\Jobs\TaskSyncDepartment;
+use ManoCode\Corp\Jobs\TaskSyncUser;
 
 class DingService extends SyncService
 {

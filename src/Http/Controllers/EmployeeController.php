@@ -1,14 +1,14 @@
 <?php
 
-namespace UUPT\Corp\Http\Controllers;
+namespace ManoCode\Corp\Http\Controllers;
 
 use Slowlyo\OwlAdmin\Renderers\Page;
 use Slowlyo\OwlAdmin\Renderers\Form;
 use Slowlyo\OwlAdmin\Controllers\AdminController;
 use Slowlyo\OwlAdmin\Renderers\TreeControl;
 use Slowlyo\OwlAdmin\Renderers\Wrapper;
-use UUPT\Corp\Services\DepartmentService;
-use UUPT\Corp\Services\EmployeeService;
+use ManoCode\Corp\Services\DepartmentService;
+use ManoCode\Corp\Services\EmployeeService;
 
 /**
  * 员工信息管理

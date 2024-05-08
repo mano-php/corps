@@ -1,5 +1,5 @@
 <?php
-namespace UUPT\Corp\Library;
+namespace ManoCode\Corp\Library;
 
 class PKCS7Encoder
 {

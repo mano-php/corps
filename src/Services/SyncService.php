@@ -1,11 +1,11 @@
 <?php
 
-namespace UUPT\Corp\Services;
+namespace ManoCode\Corp\Services;
 
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
-use UUPT\Corp\Models\Department;
-use UUPT\Corp\Models\Employee;
+use ManoCode\Corp\Models\Department;
+use ManoCode\Corp\Models\Employee;
 
 abstract class SyncService implements SyncServiceInterface
 {

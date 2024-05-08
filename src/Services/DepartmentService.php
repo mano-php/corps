@@ -1,9 +1,9 @@
 <?php
 
-namespace UUPT\Corp\Services;
+namespace ManoCode\Corp\Services;
 
 use Slowlyo\OwlAdmin\Services\AdminService;
-use UUPT\Corp\Models\Department;
+use ManoCode\Corp\Models\Department;
 
 /**
  * 部门管理

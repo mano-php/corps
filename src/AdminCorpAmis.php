@@ -1,14 +1,14 @@
 <?php
 
-namespace UUPT\Corp;
+namespace ManoCode\Corp;
 
 use Illuminate\Support\Arr;
 use Slowlyo\OwlAdmin\Renderers\Page;
 use Slowlyo\OwlAdmin\Renderers\TreeControl;
 use Slowlyo\OwlAdmin\Renderers\Wrapper;
 use Slowlyo\OwlDict\Services\AdminDictService as Service;
-use UUPT\Corp\Services\DepartmentService;
-use UUPT\Corp\Services\EmployeeService;
+use ManoCode\Corp\Services\DepartmentService;
+use ManoCode\Corp\Services\EmployeeService;
 
 class AdminCorpAmis
 {

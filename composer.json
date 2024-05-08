@@ -1,18 +1,17 @@
 {
-    "name": "uupt-open/corps",
+    "name": "mano-code/corps",
     "alias": "组织架构",
     "description": "组织架构插件，包含钉钉、飞书、企业微信同步等",
     "type": "library",
     "keywords": [
-        "owl-admin",
         "extension"
     ],
-    "homepage": "https://github.com/uupt/corps",
+    "homepage": "https://github.com/mano-php/corps",
     "license": "MIT",
     "authors": [
         {
-            "name": "bbhkxd",
-            "email": "4213509@qq.com"
+            "name": "Mano",
+            "email": "Mano@qq.com"
         }
     ],
     "require": {
@@ -22,17 +21,17 @@
     },
     "autoload": {
         "psr-4": {
-            "UUPT\\Corp\\": "src/"
+            "ManoCode\\Corp\\": "src/"
         },
         "files": [
             "src/helpers.php"
         ]
     },
     "extra": {
-        "owl-admin": "UUPT\\Corp\\CorpsServiceProvider",
+        "owl-admin": "ManoCode\\Corp\\CorpsServiceProvider",
         "laravel": {
             "providers": [
-                "UUPT\\Corp\\CorpsServiceProvider"
+                "ManoCode\\Corp\\CorpsServiceProvider"
             ]
         }
     }

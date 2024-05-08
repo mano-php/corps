@@ -1,13 +1,13 @@
 <?php
 
-namespace UUPT\Corp;
+namespace ManoCode\Corp;
 
 use Slowlyo\OwlAdmin\Renderers\TextControl;
 use Slowlyo\OwlAdmin\Extend\ServiceProvider;
 use Slowlyo\OwlDict\AdminDict;
 use Slowlyo\OwlDict\Models\AdminDict as AdminDictModel;
 use Illuminate\Support\Facades\Route;
-use UUPT\Corp\Http\Controllers\CorpNotifyController;
+use ManoCode\Corp\Http\Controllers\CorpNotifyController;
 
 class CorpsServiceProvider extends ServiceProvider
 {

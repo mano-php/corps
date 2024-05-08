@@ -1,11 +1,11 @@
 <?php
 
-namespace UUPT\Corp\Library;
+namespace ManoCode\Corp\Library;
 
 use Exception;
 use Illuminate\Support\Facades\Http;
-use UUPT\Corp\CorpsServiceProvider;
-use UUPT\Corp\Services\DingService;
+use ManoCode\Corp\CorpsServiceProvider;
+use ManoCode\Corp\Services\DingService;
 
 /**
  * HTTP 封装类

@@ -1,15 +1,15 @@
 <?php
 
-namespace UUPT\Corp\Http\Controllers;
+namespace ManoCode\Corp\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use UUPT\Corp\CorpsServiceProvider;
-use UUPT\Corp\Events\DingNotify\DefaultEvent;
-use UUPT\Corp\Jobs\TaskSyncUser;
-use UUPT\Corp\Library\DingCrypt;
-use UUPT\Corp\Services\DingService;
+use ManoCode\Corp\CorpsServiceProvider;
+use ManoCode\Corp\Events\DingNotify\DefaultEvent;
+use ManoCode\Corp\Jobs\TaskSyncUser;
+use ManoCode\Corp\Library\DingCrypt;
+use ManoCode\Corp\Services\DingService;
 
 class CorpNotifyController
 {
@@ -43,7 +43,7 @@ class CorpNotifyController
                 }
                 break;
             default:
-                $event = '\\UUPT\\Corp\\Events\\DingNotify\\' . Str::studly($encryData['EventType']) . 'Event';
+                $event = '\\ManoCode\\Corp\\Events\\DingNotify\\' . Str::studly($encryData['EventType']) . 'Event';
                 if (class_exists($event)) {
                     event(new $event($encryData));
                 }else{

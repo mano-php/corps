@@ -1,6 +1,6 @@
 <?php
 
-namespace UUPT\Corp\Models;
+namespace ManoCode\Corp\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

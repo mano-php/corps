@@ -1,6 +1,6 @@
 <?php
 
-namespace UUPT\Corp\Http\Controllers;
+namespace ManoCode\Corp\Http\Controllers;
 
 use Slowlyo\OwlAdmin\Admin;
 use Slowlyo\OwlAdmin\Controllers\AdminController;
@@ -8,9 +8,9 @@ use Slowlyo\OwlAdmin\Renderers\Form;
 use Slowlyo\OwlAdmin\Renderers\Page;
 use Slowlyo\OwlAdmin\Renderers\TreeControl;
 use Slowlyo\OwlAdmin\Renderers\Wrapper;
-use UUPT\Corp\CorpsServiceProvider;
-use UUPT\Corp\Services\DepartmentService;
-use UUPT\Corp\Services\DingService;
+use ManoCode\Corp\CorpsServiceProvider;
+use ManoCode\Corp\Services\DepartmentService;
+use ManoCode\Corp\Services\DingService;
 
 /**
  * 部门管理

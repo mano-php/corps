@@ -1,11 +1,11 @@
 <?php
 
-namespace UUPT\Corp\Services;
+namespace ManoCode\Corp\Services;
 
 use Illuminate\Database\Query\Builder;
 use Slowlyo\OwlAdmin\Services\AdminService;
-use UUPT\Corp\Models\Department;
-use UUPT\Corp\Models\Employee;
+use ManoCode\Corp\Models\Department;
+use ManoCode\Corp\Models\Employee;
 
 /**
  * 员工信息管理
