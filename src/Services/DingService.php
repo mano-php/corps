@@ -12,24 +12,27 @@ class DingService extends SyncService
     // 同步部门
     public function syncDepartment($dept_id = 1) // 默认从根部门开始同步
     {
-        $departments = $this->get('https://oapi.dingtalk.com/department/list', [
-            'id' => $dept_id
+        $departments = $this->get('https://oapi.dingtalk.com/topapi/v2/department/listsub', [
+            'dept_id' => $dept_id
         ]);
-        foreach ($departments['department'] as $dept) {
+        if ($departments['errcode'] != 0) {
+            throw new \Exception('获取部门列表失败');
+        }
+//        dump($departments);
+        foreach ($departments['result'] as $dept) {
             // 这里以简化的方式处理，实际项目中可能需要更复杂的逻辑来同步或更新本地数据库的部门信息
             // 假设有一个syncUpdateDepartment方法用于处理部门数据的同步/更新
             $this->syncUpdateDepartment([
-                'third_party_id' => $dept['id'],
+                'third_party_id' => $dept['dept_id'],
                 'type' => 2,
                 'name' => $dept['name'],
-                'parent_id' => $dept['parentid'] ?? 0,
+                'parent_id' => $dept['parent_id'] ?? 0,
             ]);
             // 递归同步子部门
-            TaskSyncDepartment::dispatch($dept['id']);
+            TaskSyncDepartment::dispatch($dept['dept_id']);
             $department_userList = $this->get('https://oapi.dingtalk.com/topapi/user/listid', [
-                'dept_id' => $dept['id']
+                'dept_id' => $dept['dept_id']
             ]);
-
             foreach ($department_userList['result']['userid_list'] as $userId) {
                 TaskSyncUser::dispatch($userId);
             }
