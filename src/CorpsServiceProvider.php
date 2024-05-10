@@ -74,8 +74,8 @@ class CorpsServiceProvider extends ServiceProvider
                         amis()->Divider()->title('异步推送配置'),
                         amis()->TextControl()->name('aes_key')->label('加密aes_key'),
                         amis()->TextControl()->name('token')->label('签名 token'),
-                        amis()->StaticExactControl()->label('请求网址')->value(url()->to(admin_url('/corp/notify', true)))->copyable([
-                            'content' => url()->to(admin_url('/corp/notify', true)),
+                        amis()->StaticExactControl()->label('请求网址')->value(url()->to('/api/corp/dingtalk/notify'))->copyable([
+                            'content' => url()->to('/api/corp/dingtalk/notify'),
                         ])->desc('请将此网址填入钉钉回调地址'),
                         amis()->RadiosControl('dingtalk_enabled', '是否启用')->options([
                             ['label' => '启用', 'value' => 1],
