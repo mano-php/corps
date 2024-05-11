@@ -22,7 +22,7 @@ abstract class SyncService implements SyncServiceInterface
             'name' => $array['name'],
             'third_party_id' => $array['third_party_id'],
             'parent_id' => cache()->remember('ding_dept_id:' . $array['parent_id'], 3600 * 24 * 365, function () use ($array) {
-                return Department::query()->where('third_party_id', $array['parent_id'])->value('id');
+                return intval(Department::query()->where('third_party_id', $array['parent_id'])->value('id'));
             }),
             'type' => $array['type'],
         ]);
