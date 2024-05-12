@@ -11,13 +11,18 @@ use Illuminate\Queue\SerializesModels;
 class DefaultEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+    protected $data;
 
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public function __construct($data)
     {
-        //
+        $this->data = $data;
+    }
+    public function getData()
+    {
+        return $this->data;
     }
 
     /**
