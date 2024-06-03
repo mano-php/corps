@@ -4,8 +4,11 @@ namespace ManoCode\Corp\Services;
 
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use ManoCode\Corp\Models\Department;
 use ManoCode\Corp\Models\Employee;
+use Slowlyo\OwlAdmin\Models\AdminRole;
+use Slowlyo\OwlAdmin\Models\AdminUser;
 
 abstract class SyncService implements SyncServiceInterface
 {
@@ -65,6 +68,43 @@ abstract class SyncService implements SyncServiceInterface
                 Employee::query()->updateOrCreate([
                     'dingtalk_id' => $user['dingtalk_id']
                 ], $user);
+                /**
+                 * 判断用户是否入库
+                 */
+                if(!($model = Employee::query()->where('dingtalk_id',$user['dingtalk_id'])->first())){
+                    break;
+                }
+                /**
+                 * 角色自动创建
+                 */
+                if(!($adminRole = AdminRole::query()->where(['name'=>'员工','slug'=>'employees'])->first())){
+                    $adminRole = new AdminRole();
+                    $adminRole->setAttribute('name','员工');
+                    $adminRole->setAttribute('slug','employees');
+                    $adminRole->setAttribute('created_at',date('Y-m-d H:i:s'));
+                    $adminRole->save();
+                }
+                /**
+                 * 判断是否有管理员用户 如果没有自动创建
+                 */
+                if ((!AdminUser::query()->where(['username'=>$model->getAttribute('mobile')])->first())) {
+                    // 创建管理员
+                    $adminUser = new AdminUser();
+                    $adminUser->setAttribute('username',$model->getAttribute('mobile'));
+                    // 用户密码 默认为 手机号
+                    $adminUser->setAttribute('password',bcrypt($model->getAttribute('mobile')));
+                    $adminUser->setAttribute('enabled',1);
+                    $adminUser->setAttribute('name',$model->getAttribute('name'));
+                    $adminUser->setAttribute('avatar',$model->getAttribute('avatar'));
+                    $adminUser->setAttribute('created_at',date('Y-m-d H:i:s'));
+                    $adminUser->save();
+                    // 绑定角色
+                    DB::table('admin_role_users')->insert([
+                        'role_id'=>$adminRole->getAttribute('id'),
+                        'user_id'=>$adminUser->getAttribute('id'),
+                        'created_at'=>$adminUser->getAttribute('created_at')
+                    ]);
+                }
                 break;
         }
     }
