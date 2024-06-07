@@ -84,4 +84,129 @@ class DingService extends SyncService
             return $response->json('access_token');
         });
     }
+
+
+
+    public static function getUserAccessToken($code)
+    {
+        $appKey = CorpsServiceProvider::setting('client_id');
+        $appSecret = CorpsServiceProvider::setting('client_secret');
+
+        $url = "https://api.dingtalk.com/v1.0/oauth2/userAccessToken";
+        try {
+            $requestData = [
+                'clientId' => $appKey,
+                'clientSecret' => $appSecret,
+                'code' => $code,
+                'grantType' => 'authorization_code',
+            ];
+
+            $res = self::curlData($url, [], 'post', $requestData);
+            if (!isset($res['accessToken'])) {
+                throw new \Exception('获取用户AccessToken失败：' . $res['message'] ?? '');
+            }
+            return $res['accessToken'];
+        } catch (\Exception $err) {
+            throw new \Exception('获取用户AccessToken失败：' . $err->getMessage());
+        }
+    }
+
+
+    public function getUserInfoByToken($userAccessToken)
+    {
+        $url = "https://api.dingtalk.com/v1.0/contact/users/me";
+        try {
+            $res = self::curlData($url, ['x-acs-dingtalk-access-token:' . $userAccessToken], 'get');
+            return $res;
+        } catch (\Exception $err) {
+            throw new \Exception('获取用户信息失败：' . $err->getMessage());
+        }
+    }
+
+
+    public static function getUseridByUnionid($unionid)
+    {
+        $url = 'https://oapi.dingtalk.com/topapi/user/getbyunionid?access_token=' . self::getAccessToken(CorpsServiceProvider::setting('client_id'), CorpsServiceProvider::setting('client_secret'));
+        try {
+            $requestData = [
+                'unionid' => $unionid,
+            ];
+            $res = self::curlData($url, [], 'post', $requestData);
+            if (isset($res['errcode']) && $res['errcode'] == 0) {
+                return $res['result']['userid'];
+            } else {
+                throw new \Exception('获取用户userid信息失败：' . $res['errmsg'] ?? '');
+            }
+        } catch (\Exception $err) {
+            throw new \Exception('获取用户AccessToken失败：' . $err->getMessage());
+        }
+
+    }
+
+    public function getUserInfoByCode($code)
+    {
+
+        /**
+         * array(7) {
+        ["nick"]=>
+        string(6) "杨波"
+        ["unionId"]=>
+        string(26) "L3Y0sZD9qStvM2gGIMgO2wiEiE"
+        ["avatarUrl"]=>
+        string(76) "https://static-legacy.dingtalk.com/media/lADPDiCpz1S8nmbNAoDNAjI_562_640.jpg"
+        ["openId"]=>
+        string(27) "qzkcrbiimjSStlqVRhS8BMgiEiE"
+        ["mobile"]=>
+        string(11) "17612000371"
+        ["stateCode"]=>
+        string(2) "86"
+        ["userid"]=>
+        string(16) "1947155628848506"
+        }
+         */
+
+        $userAccessToken = self::getUserAccessToken($code);
+        $user = self::getUserInfoByToken($userAccessToken);
+        $user['userid'] = self::getUseridByUnionid($user['unionId']);
+
+        // 同步用户到本地
+        $this->getUserInfo($user['userid']);
+
+        return $user;
+    }
+
+
+
+    public static function curlData($url, $header, $http_type = 'get', $post_data = [])
+    {
+        $headers = array(
+            'cache-control:no-cache',
+            'content-type: application/json',
+        );
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        if ($http_type == 'post') {
+            $post_data = json_encode($post_data);
+            $headers = array(
+                'cache-control:no-cache',
+                'content-type: application/json',
+                'Content-Length:' . strlen($post_data),
+            );
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');//post提交方式
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+            curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+        }
+        $headers = array_merge($headers, $header);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $output = curl_exec($ch);
+        if ($output === FALSE) {
+            return array("CURL Error:" . curl_error($ch), null);
+        }
+        curl_close($ch);
+        $result = json_decode($output, true);
+        return $result;
+    }
+
 }
