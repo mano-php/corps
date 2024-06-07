@@ -1,0 +1,39 @@
+{
+    "name": "mano-code/corps",
+    "alias": "组织架构",
+    "description": "组织架构插件，包含钉钉、飞书、企业微信同步等",
+    "type": "library",
+    "version": "1.0.4",
+    "keywords": [
+        "extension"
+    ],
+    "homepage": "https://github.com/mano-php/corps",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mano",
+            "email": "Mano@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "slowlyo/owl-admin": "*",
+        "slowlyo/owl-dict": "^1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "ManoCode\\Corp\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "extra": {
+        "owl-admin": "ManoCode\\Corp\\CorpsServiceProvider",
+        "laravel": {
+            "providers": [
+                "ManoCode\\Corp\\CorpsServiceProvider"
+            ]
+        }
+    }
+}
