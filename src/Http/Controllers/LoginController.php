@@ -20,7 +20,7 @@ class LoginController extends AdminController
     {
         $domain = $request->getSchemeAndHttpHost();
         $dingClientId = CorpsServiceProvider::setting('client_id');
-        $callBackUrl = "{$domain}/admin#/login";
+        $callBackUrl = "{$domain}/admin-api/corp/loginByCode";
         $callBackUrl = urlencode($callBackUrl);
         $url = "https://login.dingtalk.com/oauth2/challenge.htm?redirect_uri={$callBackUrl}&response_type=code&client_id={$dingClientId}&scope=openid&prompt=consent";
         $data = [
