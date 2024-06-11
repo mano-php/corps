@@ -7,7 +7,7 @@
 
 
 ### 安装
-将以下代码复制保存为install.sh，放在框架根目录执行bash即可在登录时增加钉钉登录选项
+将以下代码复制保存为install.sh，放在框架根目录执行```bash install.sh```即可在登录时增加钉钉登录选项
 
 #### linux
 ```shell
