@@ -2,12 +2,14 @@
 
 namespace ManoCode\Corp;
 
+use Slowlyo\OwlAdmin\Admin;
 use Slowlyo\OwlAdmin\Renderers\TextControl;
 use Slowlyo\OwlAdmin\Extend\ServiceProvider;
 use Slowlyo\OwlDict\AdminDict;
 use Slowlyo\OwlDict\Models\AdminDict as AdminDictModel;
 use Illuminate\Support\Facades\Route;
 use ManoCode\Corp\Http\Controllers\CorpNotifyController;
+use Illuminate\Support\Facades\Crypt;
 
 class CorpsServiceProvider extends ServiceProvider
 {
@@ -59,9 +61,23 @@ class CorpsServiceProvider extends ServiceProvider
         Route::any('/api/corp/dingtalk/notify', [CorpNotifyController::class, 'notify']);
     }
 
+    public static function setting($key = null, $default = null)
+    {
+        $extension = static::instance();
+
+        if ($extension instanceof ServiceProvider) {
+            $data = $extension->config($key, $default);
+            if (in_array($key, ['corp_id', 'client_id', 'client_secret', 'agent_id', 'aes_key', 'token'])) {
+                $data = Crypt::decryptString($data);
+            }
+            return $data;
+        }
+        return null;
+    }
+
     public function settingForm()
     {
-        return $this->baseSettingForm()->body([
+        return $this->baseSettingForm()->api('corp/settingEncrypt')->initApi('corp/settingDecrypt')->body([
             amis()->Tabs()->tabs([
                 [
                     'title' => '钉钉配置',
