@@ -30,9 +30,11 @@ class SettingEncryptController extends AdminController
     public function settingDecrypt(Request $request, Response $response)
     {
         $config = CorpsServiceProvider::setting();
-        foreach ($config as $key => $item) {
-            if (in_array($key, ['corp_id', 'client_id', 'client_secret', 'agent_id', 'aes_key', 'token'])) {
-                $config[$key] = Crypt::decryptString($item);
+        if($config){
+            foreach ($config as $key => $item) {
+                if (in_array($key, ['corp_id', 'client_id', 'client_secret', 'agent_id', 'aes_key', 'token'])) {
+                    $config[$key] = Crypt::decryptString($item);
+                }
             }
         }
         return $this->response()->success($config);
