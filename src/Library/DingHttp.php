@@ -23,23 +23,32 @@ class DingHttp
         $params = $arguments[1] ?? [];
         $client_id = $arguments[2] ?? '';
         $client_secret = $arguments[3] ?? '';
-        // 检查方法是不是GET或POST，不是则抛出异常
+
+        // Check if the method is GET, POST, PUT, DELETE, or PATCH
         if (!in_array(strtolower($method), ['get', 'post', 'put', 'delete', 'patch'])) {
-            throw new Exception("Unsupported method {$method}");
-        }
-        // 兼容v2判断域名是钉钉v2的，把access_token放在头部
-        if (str_contains($url, 'api.dingtalk.com/v1.0')) {
-            $headers = [
-                'Content-Type' => 'application/json',
-                'x-acs-dingtalk-access-token' => self::getAccessToken($client_id, $client_secret)
-            ];
-            $response = Http::withHeaders($headers)->$method($url, $params);
-        } else {
-            $params['access_token'] = self::getAccessToken($client_id, $client_secret);
-            $response = Http::$method($url, $params);
+            throw new \Exception("Unsupported method {$method}");
         }
 
-        return $response->json();
+        $client = new Client();
+
+        try {
+            $options = [
+                'headers' => [
+                    'Content-Type' => 'application/json'
+                ],
+            ];
+            // Check if the URL is for DingTalk v2 API
+            if (str_contains($url, 'api.dingtalk.com/v1.0')) {
+                $options['headers']['x-acs-dingtalk-access-token'] = self::getAccessToken($client_id, $client_secret);
+                $options['json'] = $params;
+            } else {
+                $options['query'] = ['access_token' => self::getAccessToken($client_id, $client_secret)];
+            }
+            $response = $client->request(strtoupper($method), $url, $options);
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (GuzzleException $e) {
+            throw new \Exception("HTTP request failed: " . $e->getMessage());
+        }
     }
 
 
