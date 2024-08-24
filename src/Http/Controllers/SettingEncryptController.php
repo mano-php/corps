@@ -33,7 +33,11 @@ class SettingEncryptController extends AdminController
         if($config){
             foreach ($config as $key => $item) {
                 if (in_array($key, ['corp_id', 'client_id', 'client_secret', 'agent_id', 'aes_key', 'token'])) {
-                    $config[$key] = Crypt::decryptString($item);
+                    try{
+                        $config[$key] = Crypt::decryptString($item);
+                    }catch (\Throwable $throwable){
+                        // 异常时 说明配置项是明文或者 env app_key 发生了变化
+                    }
                 }
             }
         }
